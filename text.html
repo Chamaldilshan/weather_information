@@ -1,0 +1,134 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <style>
+        .input {
+            text-align: center;
+            margin: 100px auto;
+        }
+
+        input[type="submit"] {
+            padding: 12px 46px;
+            border-radius: 35px;
+            font-size: 20px;
+        }
+
+        .input input[type="text"] {
+            width: 600px;
+            height: 55px;
+            padding: 5px 10px;
+            background: #e7e7e7;
+            border: none;
+            border-radius: 1px;
+            font-family: "Nunito", sans-serif;
+            font-weight: bold;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <div class="input">
+        <input type="text" placeholder="Enter the city" class="input_text">
+        </br> </br>
+        <input type="submit" value="Submit" class="btn-outline-dark">
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h1 class="name" id="name"></h1>
+            <p class="desc"></p>
+            <p class="temp"></p>
+            <p class="time" id="p1"></p>
+        </div>
+    </div>
+
+
+
+
+</body>
+
+
+
+
+
+
+<script>
+
+
+    //     var aB={methid :'GET',
+    //     headers:{
+    //         'Content-Type':'application/json'
+    //     },
+    //     mode: 'cors',
+    //     cache: 'default'
+    // };
+
+    // var dataA = new Request("./cities.json",aB);
+    // fetch(dataA)
+    // .then(function(resp){
+    //     return resp.json();
+    // })
+    // .then(function(dataB){
+
+    //   var x=dataB.List[1].CityName;
+    //  console.log(x);
+    //  desc.innerHTML = "Description - "+x;
+    // });
+
+
+
+    var today = new Date();
+
+    var date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
+
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+    var dateTime = date + ' ' + time;
+
+
+
+    var input = document.querySelector('.input_text');
+    var main = document.querySelector('#name');
+    var temp = document.querySelector('.temp');
+    var desc = document.querySelector('.desc');
+    var button = document.querySelector('.btn-outline-dark');
+
+
+    button.addEventListener('click', function (name) {
+        fetch('https://api.openweathermap.org/data/2.5/weather?q=' + input.value + '&appid=50a7aa80fa492fa92e874d23ad061374')
+            .then(response => response.json())
+            .then(data => {
+                var tempValue = data['main']['temp'];
+                var nameValue = data['name'];
+                var descValue = data['weather'][0]['description'];
+
+                main.innerHTML = nameValue;
+                desc.innerHTML = "Description - " + descValue;
+                temp.innerHTML = "Temperature - " + tempValue;
+                input.value = ""; document.getElementById("p1").innerHTML = dateTime;
+
+            })
+
+            .catch(err => alert("Wrong city name!"));
+
+    }
+    )
+
+</script>
+
+
+</html>
